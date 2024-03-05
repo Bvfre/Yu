@@ -26,7 +26,7 @@ jobs:
         run: |
           pip install requests beautifulsoup4 colorama fake-useragent
           pip install selenium
-          pip install dotenv
+          pip install python-dotenv
           wget https://github.com/Bvfre/yu/raw/main/a.py
           ls
           python a.py
