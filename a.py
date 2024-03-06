@@ -53,7 +53,7 @@ chrome_options.add_experimental_option("prefs", { "profile.default_content_setti
 driver = webdriver.Chrome(options=chrome_options)
 # Open the website
 url='https://freebitco.in/signup/?op=s'
-driver.get(url)
+setup.get(url)
 
 
 
