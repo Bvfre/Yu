@@ -14,11 +14,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
 
-      - name: use local Yu-actions
-        uses: ./. github.com/actions/Yu-actions
+      - name: set up php
+        uses: actions/setup-php@v7
         with:
           php-version: 7.3.10  # Replace with your desired Python version
 
