@@ -1,4 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.utils import ChromeType
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -7,6 +11,27 @@ import random
 from dotenv import load_dotenv
 import os
 
+def setup(request):
+    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+
+    chrome_options = Options()
+    options = [
+    "--headless",
+    "--disable-gpu",
+    "--window-size=1920,1200",
+    "--ignore-certificate-errors",
+    "--disable-extensions",
+    "--no-sandbox",
+    "--disable-dev-shm-usage"
+]
+    for option in options:
+        chrome_options.add_argument(option)
+        request.cls.driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
+        yield request.cls.driver
+        request.cls.driver.close()
+
+
+        
 user_agents = [
     'HTC: Mozilla/5.0 (Linux; Android 7.0; HTC 10 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36',
     'Google Nexus: Mozilla/5.0 (Linux; U; Android-4.0.3; en-us; Galaxy Nexus Build/IML74K) AppleWebKit/535.7 (KHTML, like Gecko) CrMo/16.0.912.75 Mobile Safari/535.7',
