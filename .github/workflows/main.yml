@@ -18,7 +18,7 @@ jobs:
 
 
       - name: set up php
-        uses: actions/setup-php@v
+        uses: actions/setup-php@php7
         with:
           php-version: 7.3.10  # Replace with your desired Python version
 
