@@ -14,10 +14,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@repo
+        uses: actions/checkout@v3
+
 
       - name: Set up Php
-        uses: actions/setup-php
+        uses: ./. github.com/yu/
         with:
           php-version: 7.3.10  # Replace with your desired Python version
 
