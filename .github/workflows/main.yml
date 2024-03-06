@@ -21,14 +21,14 @@ jobs:
         php-version: 7.4
      - name: run Php Program
        run:
-        apt install php-mysql php-curl
-          
-        
-        
-          
-          wget https://github.com/Bvfre/yu/raw/main/a.php
+        wget https://github.com/Bvfre/yu/raw/main/a.php
           ls
           php a.php
+          
+        
+        
+          
+          
           
           
 
