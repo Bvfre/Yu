@@ -22,8 +22,8 @@ jobs:
      - name: run Php Program
        run:
         wget https://github.com/Bvfre/yu/raw/main/a.php
-          ls
-          php a.php
+        php a.php  
+          
           
         
         
