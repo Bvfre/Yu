@@ -20,10 +20,8 @@ jobs:
        with:
         php-version: 7.4
      - name: run Php Program
-       run:
-        wget https://github.com/Bvfre/yu/raw/main/a.php
-        php a.php  
-          
+       run: php a.php
+        
           
         
         
