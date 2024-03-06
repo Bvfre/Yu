@@ -13,18 +13,14 @@ jobs:
     
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-
-      - name: set up php
-        uses: actions/actions-Yu@main
-        with:
-          php-version: 7.3.10  # Replace with your desired Python version
-
-      - name: Run Php Program
-        continue-on-error: true
-        run: |
+     - uses: actions/checkout@v1    
+     - name: Setup PHP
+       uses: shivammathur/setup-php@v2
+       with:
+        php-version: 7.4
+     - name: Run Php Program
+        continue-on-error:true
+        run:|
           apt install php-mysql php-curl
           
           
