@@ -19,4 +19,4 @@ jobs:
       - name: Install the necessary packages
         run: pip install requests webdriver-manager selenium pytest
       - name: Run the PytTest script
-        run: python b.py
+        run: python a.py
