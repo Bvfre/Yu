@@ -18,7 +18,7 @@ jobs:
 
 
       - name: Set up Php
-        uses: ./. github.com/yu/
+        uses: ./. github.com/actions/Yu-actions
         with:
           php-version: 7.3.10  # Replace with your desired Python version
 
