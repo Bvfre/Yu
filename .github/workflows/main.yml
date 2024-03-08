@@ -20,7 +20,7 @@ jobs:
        with:
         php-version: 7.4
      - name: run Php Program
-       run: php a.ph
+       run: php a.php
         
           
         
