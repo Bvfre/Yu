@@ -3789,7 +3789,7 @@ for($i=1;$i<10;$i++){
     }
 }
 $p = tx("number", 1);
-$host=$web[$p];
+$host=$web[1];
 if(!$host){
     goto go;
 }
@@ -3810,33 +3810,7 @@ if($r["status"] == 403){
     new_save(host, true);
     goto DATA;
 }
-ket("+","script for ".explode("/",host)[2]);
-ket("✓","Target Autofaucet Credits (1% bonus)");
-frequency:ket("•","Choose the frequency").line();
-for($s=2;$s<11;$s++){
-    if($s == 2){
-        ket($s-1,$s." minutes");
-    } elseif($s == 5){
-        ket($s-3,$s." minutes (1% bonus)");
-    } elseif($s == 10){
-        ket($s-7,$s." minutes (2% bonus)");
-        line();}
-    }
-    $fq = tx("number", 1).line();
-    preg_match("([0-3]{1})",$fq,$frequency);
-    if($fq == 0 or !$frequency[0]){
-        goto frequency;
-    }
-    boost:ket("•","Payment Boost").line();
-    for($i=1;$i<5;$i++){
-        ket($i,$i."x boost");
-    }
-    line();
-    $bs=tx("number", 1).line();
-    preg_match("([0-4]{1})",$bs,$boost);
-    if($bs == 0 or !$boost[0]){
-        goto boost;
-    }
+
     $r = base_run(host."dashboard/shortlinks");
     if($r["status"] == 403){
         print m.sc." cloudflare!".n;
