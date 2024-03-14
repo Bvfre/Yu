@@ -5,11 +5,11 @@ jobs:
   test01:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out this repo
+      - name: Check code
         uses: actions/checkout@v2
      #Setup Python   
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v3
         with:
           python-version: '3.9'
       - name: install a
