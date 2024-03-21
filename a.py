@@ -1,112 +1,174 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+import requests
+from bs4 import BeautifulSoup
+import requests,random,json
+import time,sys,subprocess,re
+from datetime import datetime
+
+import requests
+import json,os
+import time,sys
+from requests.adapters import HTTPAdapter
+from urllib3.util import Retry
+import time,random
+import re
+from bs4 import BeautifulSoup
+from urllib.parse import urlparse
+import datetime
+import os
+import sys
+import json
 import time
 import random
-from dotenv import load_dotenv
+import requests
+import datetime
+from colorama import Fore, Back, Style, init
+from random import randint
+import requests
+from fake_useragent import UserAgent
+import random
+
+# Create an instance of UserAgent
+ua = UserAgent()
 import os
+init(autoreset=True)
 
-def setup(request):
-    chrome_service = Service(ChromeDriverManager(chrome_type=ChromeType.GOOGLE).install())
+sc_ver = "CLAIMBTC.ONLINE v5"
 
-    chrome_options = Options()
-    options = [
-    "--headless",
-    "--disable-gpu",
-    "--window-size=1920,1200",
-    "--ignore-certificate-errors",
-    "--disable-extensions",
-    "--no-sandbox",
-    "--disable-dev-shm-usage"
-]
-    for option in options:
-        chrome_options.add_argument(option)
-        request.cls.driver = webdriver.Chrome(service=chrome_service, options=chrome_options)
-        yield request.cls.driver
-        request.cls.driver.close()
+end = "\033[K"
+res = Style.RESET_ALL
+red = Style.BRIGHT+Fore.RED
+bg_red = Back.RED
+white = Style.BRIGHT+Fore.WHITE
+green = Style.BRIGHT+Fore.GREEN
+yellow = Style.BRIGHT+Fore.YELLOW
+colors = [Fore.RED, Fore.GREEN, Fore.YELLOW, Fore.BLUE, Fore.MAGENTA, Fore.CYAN]
 
 
+def wait(x):
+    for i in range(x, -1, -1):
+        col = yellow if i % 2 == 0 else white
+        animation = "⫸" if i % 2 == 0 else "⫸⫸"
+        m, s = divmod(i, 60)
+        t = f"[00:{m:02}:{s:02}]"
+        sys.stdout.write(f"\r  {white}Please wait {col}{t} {animation}{res}{end}\r")
+        sys.stdout.flush()
+        time.sleep(1)
         
-user_agents = [
-    'HTC: Mozilla/5.0 (Linux; Android 7.0; HTC 10 Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.83 Mobile Safari/537.36',
-    'Google Nexus: Mozilla/5.0 (Linux; U; Android-4.0.3; en-us; Galaxy Nexus Build/IML74K) AppleWebKit/535.7 (KHTML, like Gecko) CrMo/16.0.912.75 Mobile Safari/535.7',
-    'Samsung Galaxy Note 4: Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-N910F Build/MMB29M) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36',
-    'Samsung Galaxy Note 3: Mozilla/5.0 (Linux; Android 5.0; SAMSUNG SM-N900 Build/LRX21V) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/2.1 Chrome/34.0.1847.76 Mobile Safari/537.36',
-    'Samsung Phone: Mozilla/5.0 (Linux; Android 6.0.1; SAMSUNG SM-G570Y Build/MMB29K) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/4.0 Chrome/44.0.2403.133 Mobile Safari/537.36',
-    'Apple iPad: Mozilla/5.0 (iPad; CPU OS 8_4_1 like Mac OS X) AppleWebKit/600.1.4 (KHTML, like Gecko) Version/8.0 Mobile/12H321 Safari/600.1.4',
-    'Microsoft Internet Explorer 11 / IE 11: Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
-    'Microsoft Internet Explorer 7 / IE 7: Mozilla/5.0 (Windows; U; MSIE 7.0; Windows NT 6.0; en-US)'
-    # Add more user agents as needed
-]
+        
+def Session():
+    session = requests.Session()
+    retry = Retry(connect=5, backoff_factor=1)
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    return session
 
-# Choose a random user agent
-random_user_agent = random.choice(user_agents)
-load_dotenv()
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--dns-server=8.8.8.8') 
-chrome_options.add_argument("--disable-notifications")
-chrome_options.add_experimental_option("prefs", { "profile.default_content_setting_values.notifications": 2 })
-driver = webdriver.Chrome(options=chrome_options)
-# Open the website
-url='https://freebitco.in/signup/?op=s'
-setup.get(url)
+class Api_MB:
+    def __init__(self):
+        self.url = "http://api.multibot.in"
+        self.key = "5Z4sWvudz6Jjfw2nK10YcOFkRbQVMU"
+        self.max_wait = 300
+        self.sleep = 5
+
+    def in_api(self, data):
+        session = Session()
+        params = {"key": (None, self.key), "json": (None, "1")}
+        for key in data:
+            params[key] = (None, data[key])
+        return session.post(self.url + '/in.php', files=params, verify=False, timeout=5)
+
+    def res_api(self, api_id):
+        session = Session()
+        params = {"key": self.key, "id": api_id, "json": "1"}
+        return session.get(self.url + '/res.php', params=params, verify=False, timeout=5)
+
+    def run(self, data):
+        get_in = self.in_api(data)
+        if get_in:
+            if json.loads(get_in.text)['status']:
+                api_id = json.loads(get_in.text)['request']
+            else:
+                return json.loads(get_in.text)['request']
+        else:
+            return "WRONG_RESPONSE_API"
+        for i in range(self.max_wait//self.sleep):
+            time.sleep(self.sleep)
+            get_res = self.res_api(api_id)
+            if get_res:
+                answer = json.loads(get_res.text)['request']
+                if 'CAPCHA_NOT_READY' in answer:
+                    continue
+                else:
+                    return answer
+                    
+                    
+
+def msg_line():
+ #   green = "\033[92m"  # ANSI escape code for green color
+    print(f"{green}{'━' * 50}")
+    
+
+url = 'https://bnbfree.in'
+
+ua = UserAgent()
+
+# Define the login headers with a random User-Agent
+login_headers = {
+    'Host': 'bnbfree.in',
+    'Accept': '*/*',
+    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+    'User-Agent': ua.random,  # Use ua.random to get a random User-Agent string
+    'X-Requested-With': 'XMLHttpRequest'
+}
 
 
+login_payload = {
+    'csrf_token': '',
+    'op': 'login_new',
+    'btc_address': 'aebebas877@gmail.com',
+    'password': '@yudhistira@',
+    'tfa_code': ''
+}
 
-# Wait for the specific button to appear and click it
-try:
-    specific_button = WebDriverWait(driver, 10).until(
-       EC.element_to_be_clickable((By.XPATH, "//li[@class='login_menu_button']/a"))
-    )
-    specific_button.click()
-    print('Login menu button clicked')
-except:
-    print("Specific button not found or not clickable")
+api = Api_MB()
+data = {"method": "hcaptcha", "pageurl": "https://bnbfree.in/", "sitekey": "2ca356f0-8121-44d8-9596-6aeb24529e95"}
 
-email = os.getenv("EMAIL")
-password = os.getenv("PASSWORD")
-email_field = driver.find_element('id','login_form_btc_address')
-email_field.send_keys(email)
-password_field = driver.find_element('id', 'login_form_password')
-password_field.send_keys(password)
+with requests.Session() as session:
+    # Perform login
+    login_response = session.post(url, data=login_payload, headers=login_headers)
 
-# Submit the login form
-try:
-    login_button = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.ID, "login_button"))
-    )
-    login_button.click()
-    print("LOGIN button clicked")
-except:
-    print("LOGIN button not found or not clickable")
-time.sleep(5)
+    # Check if the login was successful
+    if login_response.status_code == 200:
+        print("Login successful")
+    else:
+        print("Login failed")
+        sys.exit(1)  # Exit the script if login fails
 
-# Wait for the checkbox to appear and click it
-try:
-    iframe_element = driver.find_element(By.XPATH, '//iframe[contains(@src, "https://newassets.hcaptcha.com/captcha")]')
-    # Switch to the iframe
-    driver.switch_to.frame(iframe_element)
-    #  interact with elements inside the iframe
-    checkbox_element = driver.find_element(By.XPATH, '//*[@id="checkbox"]')
-    checkbox_element.click()
-    print("Captcha found and clicked")
-except Exception as e:
-    print("Captcha not found or not clickable:", str(e))
+    # Continue with other actions in a while True loop
+    while True:
+        # Perform other actions using the session
+        # Example: Make a POST request after logging in
+        cap = api.run(data)
+        claim_payload = f"csrf_token=&op=free_play&fingerprint=1fad3fde0dc3279a86f55e445c824847&client_seed=iEjoup0bY4chRj8p&fingerprint2=1760875237&pwc=0&h_recaptcha_response={cap}"
+        response = session.post(url, data=claim_payload,headers=login_headers)
 
-# Click on the roll button
-try:
-    roll_button_element = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.CLASS_NAME, 'free_play_element'))
-    )
-    driver.execute_script("arguments[0].click();", roll_button_element)
-    print("Roll Button clicked")
-except:
-    print("Roll Button not found or not clickable")
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Extract the desired values from the response
+            s = str(response.text)
+            parts = s.split(":")
+            if len(parts) >= 4:  # Ensure there are enough parts to extract
+                extracted_substring = ":".join(parts[1:4])
+                subparts = extracted_substring.split(":")
+                a = subparts[0]
+                b = subparts[1]
+                c = subparts[2]
+                print(f"roll number={a},  Balance={b}, Reward={c}")
+            else:
+                print("Unexpected response format")
+        
+        else:
+            pass
 
-time.sleep(500)
-# Close the browser
-driver.quit()
+        # Wait for a random time before the next iteration
+        wait(random.randint(3600, 3672))
