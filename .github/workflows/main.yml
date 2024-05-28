@@ -20,7 +20,7 @@ jobs:
        with:
         php-version: 8.0
      - name: run Php Program
-       run:  php bot.php
+       run:  php a.php
      
     
      
